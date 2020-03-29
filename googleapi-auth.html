@@ -18,10 +18,9 @@
     // 'scope' field specifies space-delimited list of access scopes.
     gapi.client
       .init({
-        apiKey: "AIzaSyDEYvFetoCtiPPnbmRW0dlRxd08HaINGkI",
+        apiKey: ITWILLFAIL.API_KEY,
         discoveryDocs: [discoveryUrl],
-        clientId:
-          "1094050118430-q6t7eekh4su50jbsi31np0rblt3n51mp.apps.googleusercontent.com",
+        clientId: ITWILLFAIL.CLIENT_ID,
         scope: SCOPE
       })
       .then(function() {
