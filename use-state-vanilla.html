@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!-- https://codepen.io/jonneal/post/writing-usestate -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>use state vanilla</title>
+  </head>
+
+  <body>
+    <script>
+      function connect(componentFn) {
+        // initialization
+        const saved = {
+          fn() {
+            // setup
+            Object.assign(saved, { context: this, args: arguments, slot: 0 });
+            connect.now = saved;
+
+            const returnValue = componentFn.apply(this, arguments);
+
+            // teardown
+            delete connect.now;
+
+            return returnValue;
+          },
+          data: []
+        };
+        console.log(saved);
+        return saved.fn;
+      }
+
+      function useState(value) {
+        // get saved data and the current slot
+        // console.log("# 1 # ", connect);
+        // console.log("# 2 # ", connect.now);
+        const saved = connect.now;
+        const { slot } = Object(saved);
+
+        if (saved) {
+          // tick the saved slot up
+          ++saved.slot;
+
+          // get/set the saved value
+          value =
+            slot in saved.data ? saved.data[slot] : (saved.data[slot] = value);
+        }
+
+        return [value, setValue];
+
+        function setValue(newValue) {
+          if (saved) {
+            // update the saved value
+            saved.data[slot] = newValue;
+
+            // rerun the function with the right context and args
+            saved.fn.apply(saved.context, saved.args);
+          }
+        }
+      }
+    </script>
+    <script>
+      function Example() {
+        // Declare a new state variable, which we'll call "count"
+        const [count, setCount] = useState(0);
+
+        document.body.innerHTML = `
+          <div>
+            <p>You clicked ${count} times</p>
+            <button>
+              Click me
+            </button>
+          </div>
+        `;
+
+        document.body.querySelector("button").onclick = () =>
+          setCount(count + 1);
+      }
+
+      connect(Example)();
+    </script>
+  </body>
+</html>
