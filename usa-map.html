@@ -105,26 +105,28 @@
     svg.call(zoom); // delete this line to disable free zooming
     // .call(zoom.event); // not in d3 v4
 
-    d3.json("us.json", function(error, us) {
-      if (error) throw error;
+    d3.json("us.json")
+      .then(function(us) {
+        g.selectAll("path")
+          .data(topojson.feature(us, us.objects.states).features)
+          .enter()
+          .append("path")
+          .attr("d", path)
+          .attr("class", "feature")
+          .on("click", clicked);
 
-      g.selectAll("path")
-        .data(topojson.feature(us, us.objects.states).features)
-        .enter()
-        .append("path")
-        .attr("d", path)
-        .attr("class", "feature")
-        .on("click", clicked);
-
-      g.append("path")
-        .datum(
-          topojson.mesh(us, us.objects.states, function(a, b) {
-            return a !== b;
-          })
-        )
-        .attr("class", "mesh")
-        .attr("d", path);
-    });
+        g.append("path")
+          .datum(
+            topojson.mesh(us, us.objects.states, function(a, b) {
+              return a !== b;
+            })
+          )
+          .attr("class", "mesh")
+          .attr("d", path);
+      })
+      .catch(error => {
+        throw error;
+      });
 
     function clicked(d) {
       if (active.node() === this) return reset();
@@ -137,7 +139,7 @@
         x = (bounds[0][0] + bounds[1][0]) / 2,
         y = (bounds[0][1] + bounds[1][1]) / 2;
 
-      console.log("bounds", translate[0], translate[1], scaledx, dy, x, y);
+      console.log("bounds", scale, dy, x, y);
       var scale = Math.max(
         1,
         Math.min(8, 0.9 / Math.max(dx / width, dy / height))
