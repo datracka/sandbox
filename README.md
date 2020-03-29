@@ -4,7 +4,7 @@
 
 ### `/googleapi-auth`
 
-to learn how to work with google auth
+to learn how to work with google auth. Needs .env and it has to be read by javascript
 
 ### `/usa-map`
 
