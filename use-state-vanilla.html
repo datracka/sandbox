@@ -25,7 +25,6 @@
           },
           data: []
         };
-        console.log(saved);
         return saved.fn;
       }
 
@@ -76,6 +75,11 @@
           setCount(count + 1);
       }
 
+      // we connect example and have an object {fn: fn(), data:[]}
+      // then we execute the function
+      // the function execute the Example component
+      // the Example component paints
+      // The Example component and his functions have access to connect because clustering
       connect(Example)();
     </script>
   </body>

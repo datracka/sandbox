@@ -139,7 +139,7 @@
         x = (bounds[0][0] + bounds[1][0]) / 2,
         y = (bounds[0][1] + bounds[1][1]) / 2;
 
-      console.log("bounds", scale, dy, x, y);
+      console.log("bounds", bounds, scale, dy, x, y);
       var scale = Math.max(
         1,
         Math.min(8, 0.9 / Math.max(dx / width, dy / height))
@@ -151,10 +151,7 @@
         .transition()
         .duration(750)
         // .call(zoom.translate(translate).scale(scale).event); // not in d3 v4
-        .call(
-          zoom.transform,
-          d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale)
-        ); // updated for d3 v4
+        .call(zoom.transform, d3.zoomIdentity); // updated for d3 v4
     }
 
     function reset() {
