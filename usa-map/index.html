@@ -7,10 +7,6 @@
     padding: 0;
     margin: 0;
   }
-
-  .svg {
-  }
-
   .background {
     fill: none;
     pointer-events: all;
@@ -30,6 +26,10 @@
     stroke: #fff;
     stroke-linecap: round;
     stroke-linejoin: round;
+  }
+
+  .square {
+    fill: rgb(255, 0, 0);
   }
 </style>
 <body class="body">
@@ -102,6 +102,12 @@
 
     var g = svg.append("g");
 
+    pixel = svg
+      .append("rect")
+      .attr("class", "square")
+      .attr("width", "5")
+      .attr("height", "5");
+
     svg.call(zoom); // delete this line to disable free zooming
     // .call(zoom.event); // not in d3 v4
 
@@ -137,21 +143,24 @@
         dx = bounds[1][0] - bounds[0][0],
         dy = bounds[1][1] - bounds[0][1],
         x = (bounds[0][0] + bounds[1][0]) / 2,
-        y = (bounds[0][1] + bounds[1][1]) / 2;
+        y = (bounds[0][1] + bounds[1][1]) / 2,
+        scale = Math.max(1, Math.min(8, 1 / Math.max(dx / width, dy / height))),
+        translate = [width / 2 - scale * x, height / 2 - scale * y];
 
-      console.log("bounds", bounds, scale, dy, x, y);
-      var scale = Math.max(
-        1,
-        Math.min(8, 0.9 / Math.max(dx / width, dy / height))
-      );
+      // console.log(dx / width, dy / height);
+      // console.log(Math.max(dx / width, dy / height));
+      // console.log(0.9 / Math.max(dx / width, dy / height));
+      console.log(x, y);
+      pixel.attr("x", x).attr("y", y);
 
-      var translate = [width / 2 - scale * x, height / 2 - scale * y];
-      console.log("translate", translate[0], translate[1], scale);
       svg
         .transition()
         .duration(750)
         // .call(zoom.translate(translate).scale(scale).event); // not in d3 v4
-        .call(zoom.transform, d3.zoomIdentity); // updated for d3 v4
+        .call(
+          zoom.transform,
+          d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale)
+        ); // updated for d3 v4
     }
 
     function reset() {
