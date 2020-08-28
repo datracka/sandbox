@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <iframe
+      width="100%"
+      height="720"
+      allowtransparency="true"
+      seamless
+      frameborder="0"
+      scrolling="no"
+      src="https://oneclickpolitics.global.ssl.fastly.net/widget/oneclick/8729"
+    ></iframe>
+    <script>
+      window.focus(); //force focus on the currenct window;
+      window.addEventListener("blur", function (e) {
+        if (document.activeElement == document.querySelector(".ocp-iframe")) {
+          alert(
+            "Focus Left Current Window and Moved to Iframe / Possible click!"
+          );
+        }
+      });
+    </script>
+  </body>
+</html>

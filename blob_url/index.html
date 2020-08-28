@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <iframe id="iframe"></iframe>
+    <script>
+      const getGeneratedPageURL = ({ html, css, js }) => {
+        const getBlobURL = (code, type) => {
+          const blob = new Blob([code], { type });
+          return URL.createObjectURL(blob);
+        };
+
+        const cssURL = getBlobURL(css, "text/css");
+        const jsURL = getBlobURL(js, "text/javascript");
+
+        let js_script = "";
+        let stylesheet_script = "";
+
+        if (css) {
+          stylesheet_script = `<link rel="stylesheet" type="text/css" href="${cssURL}" />`;
+        }
+
+        if (js) {
+          //   js_script = "<script src='" + jsURL + "'/>";
+        }
+
+        const source = `<html><head></head><body>${html}</body></html>`;
+
+        return getBlobURL(source, "text/html");
+      };
+
+      const url = getGeneratedPageURL({
+        html: "<p>Hello, world!</p>",
+        css: "p { color: blue; }",
+        js: 'console.log("hi")',
+      });
+
+      const iframe = document.querySelector("#iframe");
+      console.log(url);
+      iframe.src = url;
+    </script>
+  </body>
+</html>

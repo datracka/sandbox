@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- Start Lytics Tracking Tag Version 3 -->
+   <!-- Start Lytics Tracking Tag Version 3 -->
+<script type="text/javascript">
+  !function(){"use strict";var o=window.jstag||(window.jstag={}),r=[];function n(e){o[e]=function(){for(var n=arguments.length,t=new Array(n),i=0;i<n;i++)t[i]=arguments[i];r.push([e,t])}}n("send"),n("mock"),n("identify"),n("pageView"),n("unblock"),n("getid"),n("setid"),n("loadEntity"),n("getEntity"),n("on"),n("once"),n("call"),o.loadScript=function(n,t,i){var e=document.createElement("script");e.async=!0,e.src=n,e.onload=t,e.onerror=i;var o=document.getElementsByTagName("script")[0],r=o&&o.parentNode||document.head||document.body,c=o||r.lastChild;return null!=c?r.insertBefore(e,c):r.appendChild(e),this},o.init=function n(t){return this.config=t,this.loadScript(t.src,function(){if(o.init===n)throw new Error("Load error!");o.init(o.config),function(){for(var n=0;n<r.length;n++){var t=r[n][0],i=r[n][1];o[t].apply(o,i)}r=void 0}()}),this}}();
+  // Define config and initialize Lytics tracking tag.
+  jstag.init({
+    src: '//c.lytics.io/api/tag/3f55802f62438efe290d594acc1526ba/latest.min.js'
+  });
+  </script>
+  </head>
+  <body>
+    OCP Campaigns
+    test url: <url>?utm_source=facebook&utm_medium=social&utm_campaign=book-launch-2014-may
+
+    <div id="ocp-campaign-container"></div>
+    <script type="text/javascript">
+      let CAMPAIGN_ID = 8729;
+      let ANALYTICS_URL = "XXX";
+      let CUSTOM_FIELD_ID = "custom_field_191";
+      let SEND_ANALYICS_JUST_ONE = true;
+      let ALREADY_SENT_TO_ANALYTICS = false;
+      let CONTAINER_ID = "ocp-campaign-container";
+      let ANALYTICS_CATEGORY_TEST = "category-test"
+      let ANALYTICS_ACTION_TEST = "action_test"
+      let ANALYTICS_CAMPAIGN_ID = "campaign_id"
+    
+      // give focus by default to window
+      window.focus();
+      window.addEventListener("blur", handleBlur);
+
+      function handleBlur() {
+        if (document.activeElement == document.querySelector("#ocp-iframe")) {
+          if (!ALREADY_SENT_TO_ANALYTICS) {
+            //console.log("click in Iframe");
+            ga('send', 'event', ANALYTICS_CATEGORY_TEST, ANALYTICS_ACTION_TEST, ANALYTICS_CAMPAIGN_ID);
+            if (SEND_ANALYICS_JUST_ONE) {
+              ALREAD_SENT_TO_ANALYTICS = true;
+            }
+          }
+        }
+      }
+
+      // get url parameters
+      let params = window.location.search;
+      // when all scripts are loaded
+      window.addEventListener("load", () => {
+        try {
+            jstag.getid((id) => {
+                const enrichedParams = params.concat(`&_uid=${id}`)
+                
+                // create iFrame and append to `div`
+                let d = document.getElementById(CONTAINER_ID);
+                let ifrm = document.createElement("iframe");
+                ifrm.setAttribute(
+                    "src",
+                    `https://oneclickpolitics.global.ssl.fastly.net/widget/oneclick/${CAMPAIGN_ID}?${CUSTOM_FIELD_ID}=${btoa(
+                    enrichedParams
+                    )}`
+                );
+                ifrm.setAttribute("id", "ocp-iframe");
+                ifrm.setAttribute("width", "100%");
+                ifrm.setAttribute("height", "720px");
+                ifrm.setAttribute("allowtransparency", true);
+                ifrm.setAttribute("frameborder", "0");
+                ifrm.setAttribute("scrolling", "no");
+                d.appendChild(ifrm);
+            });
+        } catch(err) {
+            console.log('Lytics jsTag not found!!', err)
+        }
+      }, false);
+    </script>
+  </body>
+</html>

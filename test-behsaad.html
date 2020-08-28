@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>jQuery Capture Click into iFrame</title>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<style>
+    body{
+        padding: 30px;
+    }
+</style>
+</head>
+<body>
+    <div id="first" style="width: 640px; height: 480px; background-color: yellow; opacity: 10%"></div>
+    <div id="overlay" style="position: absolute; z-index: 100; width: 640px; height: 480px; background-color: blue; opacity: 10%"></div>
+    <div id="prepend" style="width: 640px; height: 480px; background-color: green; opacity: 10%"></div>
+    <iframe id="ChatFrame" allowtransparency="true" frameborder="0" scrolling="no" src="https://oneclickpolitics.global.ssl.fastly.net/widget/oneclick/8550?name=1234&custom_field_184=aaa" width="640" height="480"></iframe>
+<script>
+$( document ).ready(function() {
+    console.log( "ready!" );
+    var top = $('#prepend').position().top + $('#prepend').height()
+    console.log( "position:"+top);
+    $('#overlay').css('top', top);
+});
+
+
+$('#overlay').click(function(e){
+    console.log("click")
+    var left = $(window).scrollLeft();
+    var top = $(window).scrollTop();
+
+    //hide the overlay for now so the document can find the underlying elements
+    $(this).css('display','none');
+    
+    //use the current scroll position to deduct from the click position
+    $(document.elementFromPoint(e.pageX-left, e.pageY-top)).click();
+});
+</script>
+</body>
+</html>                            
