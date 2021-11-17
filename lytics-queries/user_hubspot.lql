@@ -1,0 +1,34 @@
+/*
+Hubspot Data
+*/
+SELECT
+`firstname` AS first_name SHORTDESC "First Name"
+,`lastname` AS last_name SHORTDESC "Last Name"
+,`job_title` AS job_title SHORTDESC "Job Title"
+,`political_party_affiliation` AS political_party_affiliation SHORTDESC "Political Party Affiliation"
+,`company` AS company_domain SHORTDESC "Company Domain"
+,`organization_type` AS organization_type SHORTDESC "Organization Type"
+,email(`email`) AS email_address SHORTDESC "Email Address"
+,`phone` AS cell_phone_number SHORTDESC "Phone"
+,`fax` AS fax SHORTDESC "Fax"
+,`address` AS street_address SHORTDESC "Street Address"
+,`city` AS city SHORTDESC "City"
+,`state` AS state SHORTDESC "State"
+,`zip` AS postal_code SHORTDESC "Postal Code"
+,`county` AS county SHORTDESC "County"
+,`country` AS country SHORTDESC "Country"
+,`website` AS website_url SHORTDESC "Website URL"
+,`personal_linkedin_page` AS personal_linkedin_page SHORTDESC "Personal LinkedIn Page"
+,`pcic_member` AS pcic_member SHORTDESC "PCIC Member"
+,`bravo_campaign` AS bravo_campaign SHORTDESC "Bravo Campaign"
+,`bravo_subscription` AS bravo_subscription SHORTDESC "Bravo Subscription"
+,`us_house_district` AS us_house_district SHORTDESC "US House District"
+,`state_house_district` AS state_house_district SHORTDESC "State House District"
+,`legislative_committees` AS legislative_committees SHORTDESC "Legislative Committee"
+,`createdate` AS create_date SHORTDESC "Create Date"
+,`lastmodifieddate` AS last_modified_date SHORTDESC "Last Modified Date"
+,`id` AS hubspot_id SHORTDESC "Hubspot ID"
+FROM hubspot
+INTO user
+BY hubspot_id OR email_address
+ALIAS user_hubspot
